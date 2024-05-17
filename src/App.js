@@ -9,10 +9,13 @@ import "./App.css";
 // 2. TODO - Import drawing utility here
 // e.g. import { drawRect } from "./utilities";
 import { drawRect } from "./utilities";
+// import Header from "./Component/Header";
+import Footer from "./Component/Footer";
 
 function App() {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
+  const areaCheck = useRef(null);
 
   // Main function
   const runCoco = async () => {
@@ -46,6 +49,9 @@ function App() {
       canvasRef.current.width = videoWidth;
       canvasRef.current.height = videoHeight;
 
+      areaCheck.current.width = videoWidth;
+      areaCheck.current.height = videoHeight;
+
       // 4. TODO - Make Detections
       // e.g. const obj = await net.detect(video);
       const obj = await net.detect(video);
@@ -56,6 +62,22 @@ function App() {
       // 5. TODO - Update drawing utility
       // drawSomething(obj, ctx)
       drawRect(obj, ctx);
+
+      const ctxArea = areaCheck.current.getContext("2d");
+
+      const x = 10;
+      const y = 10;
+      const width = 300;
+      const height = 400;
+      const text = "Area Check";
+      ctxArea.strokeStyle = "red";
+      ctxArea.font = "18px Arial";
+      ctxArea.fillStyle = "red";
+      ctxArea.fillText(text, x, y);
+      ctxArea.beginPath();
+      ctxArea.lineWidth = 2;
+      ctxArea.rect(x, y, width, height);
+      ctxArea.stroke();
     }
   };
 
@@ -65,38 +87,53 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <Webcam
-          ref={webcamRef}
-          muted={true}
-          style={{
-            position: "absolute",
-            marginLeft: "auto",
-            marginRight: "auto",
-            left: 0,
-            right: 0,
-            textAlign: "center",
-            zindex: 9,
-            width: 640,
-            height: 480,
-          }}
-        />
+      {/* <Header /> */}
+      <Webcam
+        ref={webcamRef}
+        muted={true}
+        style={{
+          position: "absolute",
+          marginLeft: "auto",
+          marginRight: "auto",
+          left: 0,
+          right: 0,
+          textAlign: "center",
+          zindex: 9,
+          width: 640 * 2,
+          height: 480 * 2,
+        }}
+      />
 
-        <canvas
-          ref={canvasRef}
-          style={{
-            position: "absolute",
-            marginLeft: "auto",
-            marginRight: "auto",
-            left: 0,
-            right: 0,
-            textAlign: "center",
-            zindex: 8,
-            width: 640,
-            height: 480,
-          }}
-        />
-      </header>
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: "absolute",
+          marginLeft: "auto",
+          marginRight: "auto",
+          left: 0,
+          right: 0,
+          textAlign: "center",
+          zindex: 8,
+          width: 640 * 2,
+          height: 480 * 2,
+        }}
+      />
+
+      <canvas
+        ref={areaCheck}
+        style={{
+          position: "absolute",
+          marginLeft: "auto",
+          marginRight: "auto",
+          left: 0,
+          right: 0,
+          textAlign: "center",
+          zindex: 7,
+          width: 640 * 2,
+          height: 480 * 2,
+        }}
+      />
+      <Footer />
     </div>
   );
 }
