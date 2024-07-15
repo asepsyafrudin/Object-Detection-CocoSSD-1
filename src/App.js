@@ -11,8 +11,14 @@ import "./App.css";
 import { drawRect } from "./utilities";
 // import Header from "./Component/Header";
 import Footer from "./Component/Footer";
+import Header from "./Component/Header";
+import { Card, Col, Row } from "react-bootstrap";
+import axios from "axios";
 
 function App() {
+  const [totalPerson, setTotalPerson] = useState(0);
+  const [statusPerson, setStatusPerson] = useState(false);
+
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
   const areaCheck = useRef(null);
@@ -26,7 +32,7 @@ function App() {
     //  Loop and detect hands
     setInterval(() => {
       detect(net);
-    }, 10);
+    }, 300);
   };
 
   const detect = async (net) => {
@@ -49,35 +55,31 @@ function App() {
       canvasRef.current.width = videoWidth;
       canvasRef.current.height = videoHeight;
 
-      areaCheck.current.width = videoWidth;
-      areaCheck.current.height = videoHeight;
+      // areaCheck.current.width = videoWidth;
+      // areaCheck.current.height = videoHeight;
 
       // 4. TODO - Make Detections
       // e.g. const obj = await net.detect(video);
       const obj = await net.detect(video);
+      let person = 0;
+      obj.forEach((element) => {
+        if (element.class === "person") {
+          person += 1;
+        }
+      });
+
+      setTotalPerson(person);
+
+      if (person > 0) {
+        setStatusPerson(true);
+      } else {
+        setStatusPerson(false);
+      }
 
       // Draw mesh
       const ctx = canvasRef.current.getContext("2d");
 
-      // 5. TODO - Update drawing utility
-      // drawSomething(obj, ctx)
       drawRect(obj, ctx);
-
-      const ctxArea = areaCheck.current.getContext("2d");
-
-      const x = 10;
-      const y = 10;
-      const width = 300;
-      const height = 400;
-      const text = "Area Check";
-      ctxArea.strokeStyle = "red";
-      ctxArea.font = "18px Arial";
-      ctxArea.fillStyle = "red";
-      ctxArea.fillText(text, x, y);
-      ctxArea.beginPath();
-      ctxArea.lineWidth = 2;
-      ctxArea.rect(x, y, width, height);
-      ctxArea.stroke();
     }
   };
 
@@ -85,41 +87,88 @@ function App() {
     runCoco();
   }, []);
 
+  useEffect(() => {
+    if (statusPerson === false) {
+      axios
+        .post("http://localhost:8080/api/turnoff")
+        .then(() => {
+          console.log("Turned off");
+          setStatusPerson(false);
+        })
+        .catch((error) => console.log(error));
+    } else {
+      axios
+        .post("http://localhost:8080/api/turnon")
+        .then(() => {
+          console.log("Turned on");
+          setStatusPerson(true);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [statusPerson]);
+
+  const videoConstraints = {
+    width: 1920,
+    height: 1080,
+    facingMode: "user",
+  };
   return (
     <div className="App">
-      {/* <Header /> */}
-      <Webcam
-        ref={webcamRef}
-        muted={true}
-        style={{
-          position: "absolute",
-          marginLeft: "auto",
-          marginRight: "auto",
-          left: 0,
-          right: 0,
-          textAlign: "center",
-          zindex: 9,
-          width: 640 * 2,
-          height: 480 * 2,
-        }}
-      />
+      <Header />
+      <div style={{ padding: 20 }}>
+        <Row>
+          <Col md={7}>
+            <Card>
+              <Card.Header>Vision System Human Detector</Card.Header>
+              <Card.Body>
+                <div style={{ position: "relative", width: 500, height: 480 }}>
+                  <Webcam
+                    ref={webcamRef}
+                    muted={true}
+                    style={{
+                      position: "absolute",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      left: 15,
+                      right: 0,
+                      textAlign: "center",
+                      zindex: 9,
+                      width: 600,
+                      height: 480,
+                    }}
+                    videoConstraints={videoConstraints}
+                  />
+                  <canvas
+                    ref={canvasRef}
+                    style={{
+                      position: "absolute",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      left: 15,
+                      right: 0,
+                      textAlign: "center",
+                      zindex: 10,
+                      width: 600,
+                      height: 480,
+                    }}
+                  />
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md={5}>
+            <Card>
+              <Card.Header> Total Person Detected</Card.Header>
+              <Card.Body>
+                <Card.Text>
+                  <span style={{ fontSize: 100 }}>{totalPerson}</span>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
 
-      <canvas
-        ref={canvasRef}
-        style={{
-          position: "absolute",
-          marginLeft: "auto",
-          marginRight: "auto",
-          left: 0,
-          right: 0,
-          textAlign: "center",
-          zindex: 8,
-          width: 640 * 2,
-          height: 480 * 2,
-        }}
-      />
-
-      <canvas
+        {/* <canvas
         ref={areaCheck}
         style={{
           position: "absolute",
@@ -129,10 +178,11 @@ function App() {
           right: 0,
           textAlign: "center",
           zindex: 7,
-          width: 640 * 2,
-          height: 480 * 2,
+          width: 1920,
+          height: 1080,
         }}
-      />
+      /> */}
+      </div>
       <Footer />
     </div>
   );
