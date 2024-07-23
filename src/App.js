@@ -195,7 +195,7 @@ function App() {
   useEffect(() => {
     if (statusPerson === false) {
       axios
-        .post("http://localhost:8080/api/turnoff")
+        .post("http://192.168.137.1:8080/api/turnoff")
         .then(() => {
           console.log("Turned off");
           setStatusPerson(false);
@@ -203,7 +203,7 @@ function App() {
         .catch((error) => console.log(error));
     } else {
       axios
-        .post("http://localhost:8080/api/turnon")
+        .post("http://192.168.137.1:8080/api/turnon")
         .then(() => {
           console.log("Turned on");
           setStatusPerson(true);
