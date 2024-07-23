@@ -56,23 +56,24 @@ function App() {
         ) {
           ctx.strokeStyle = "green";
           ctx.font = "18px Arial";
-          ctx.fillStyle = "green";
-          ctx.fillText(text, x, y);
-          ctx.beginPath();
-          ctx.lineWidth = 5;
-          ctx.rect(x, y, width, height);
-          ctx.stroke();
-          person += 1;
-        } else {
-          ctx.strokeStyle = "red";
-          ctx.font = "18px Arial";
           ctx.fillStyle = "red";
           ctx.fillText(text, x, y);
           ctx.beginPath();
           ctx.lineWidth = 5;
           ctx.rect(x, y, width, height);
           ctx.stroke();
+          person += 1;
         }
+        // else {
+        //   ctx.strokeStyle = "red";
+        //   ctx.font = "18px Arial";
+        //   ctx.fillStyle = "red";
+        //   ctx.fillText(text, x, y);
+        //   ctx.beginPath();
+        //   ctx.lineWidth = 5;
+        //   ctx.rect(x, y, width, height);
+        //   ctx.stroke();
+        // }
       }
     });
 
