@@ -8834,6 +8834,11 @@ react-app-polyfill@^1.0.6:
     regenerator-runtime "^0.13.3"
     whatwg-fetch "^3.0.0"
 
+react-blink-text@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/react-blink-text/-/react-blink-text-1.0.5.tgz#8e7af0701d998ced0c0aafcbfa7f8e171b08ceb7"
+  integrity sha512-mcexEyw3lvIqONpW4Z17sENXuR0Zydv/kWaCSyM0wA2yyxjSzAnlfiljYNAS3CGN7JH849GCKDvJn1rFaIvzqQ==
+
 react-bootstrap@^2.10.2:
   version "2.10.2"
   resolved "https://registry.yarnpkg.com/react-bootstrap/-/react-bootstrap-2.10.2.tgz#3b609eb0170e31b3d9ace297d3a016c202a42642"

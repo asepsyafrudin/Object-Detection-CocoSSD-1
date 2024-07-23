@@ -3,9 +3,9 @@ export const drawRect = (detections, ctx) => {
     //get prediction result;
     const [x, y, width, height] = prediction["bbox"];
     const text = prediction["class"];
-    const x1 = 10;
+    const x1 = 680;
     const y1 = 10;
-    const width1 = 300;
+    const width1 = 600;
     const height1 = 400;
     if (text === "person") {
       if (
