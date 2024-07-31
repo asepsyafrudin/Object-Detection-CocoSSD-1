@@ -16,7 +16,7 @@ function Header() {
       className="bg-body-tertiary"
       style={{ height: 75, color: "white" }}
     >
-      <Container>
+      <Container style={{ textAlign: "center" }}>
         <Navbar.Brand>
           <img
             src={Logo}
@@ -24,13 +24,13 @@ function Header() {
             alt="logoTrace"
             style={{ marginRight: 30 }}
           />
-          <span
-            className="titleLogo"
-            style={{ fontSize: 25, fontWeight: "bold" }}
-          >
-            VISION SYSTEM
-          </span>
         </Navbar.Brand>
+        <span
+          className="titleLogo"
+          style={{ fontSize: 50, fontWeight: "bold", marginRight: 400 }}
+        >
+          AI OBJECT DETECTION
+        </span>
       </Container>
     </Navbar>
   );
