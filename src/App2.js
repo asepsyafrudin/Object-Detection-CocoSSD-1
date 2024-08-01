@@ -16,7 +16,7 @@ import axios from "axios";
 import ImgWarning from "../src/Assets/Image/alert.png";
 import Blink from "react-blink-text";
 import Header from "./Component/Header";
-import VideoUrl from "../src/Assets/video/0729.mp4";
+import VideoUrl from "../src/Assets/video/0735.mp4";
 
 const position = {
   x: 600,
