@@ -73,7 +73,7 @@ function App2() {
       const y1 = position.y;
       const width1 = position.width;
       const height1 = position.height;
-      if (text === "person") {
+      if (text === "mouse") {
         if (
           x > x1 &&
           y > y1 &&
@@ -212,17 +212,22 @@ function App2() {
   }, []);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     if (statusPerson === false) {
       axios
-        .post("http://192.168.137.1:8080/api/turnoff")
+        .post("http://localhost:8080/api/turnoff")
         .then(() => {
           console.log("Turned off");
           setStatusPerson(false);
+          controller.abort();
         })
         .catch((error) => console.log(error));
     } else {
       axios
-        .post("http://192.168.137.1:8080/api/turnon")
+        .post("http://localhost:8080/api/turnon", {
+          signal: controller.signal,
+        })
         .then(() => {
           console.log("Turned on");
           setStatusPerson(true);
