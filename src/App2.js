@@ -73,7 +73,7 @@ function App2() {
       const y1 = position.y;
       const width1 = position.width;
       const height1 = position.height;
-      if (text === "mouse") {
+      if (text === "person") {
         if (
           x > x1 &&
           y > y1 &&
