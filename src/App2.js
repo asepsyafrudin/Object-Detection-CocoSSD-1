@@ -97,10 +97,8 @@ function App2() {
 
     if (person > 0) {
       setWarning(true);
-      setStatusPerson(true);
     } else {
       setWarning(false);
-      setStatusPerson(false);
     }
     setTotalPerson(person);
   };
@@ -214,7 +212,7 @@ function App2() {
   useEffect(() => {
     const controller = new AbortController();
 
-    if (statusPerson === false) {
+    if (warning === false) {
       axios
         .post("http://localhost:8080/api/turnoff")
         .then(() => {
@@ -234,7 +232,7 @@ function App2() {
         })
         .catch((error) => console.log(error));
     }
-  }, [statusPerson]);
+  }, [warning]);
 
   const videoConstraints = {
     width: 1280,
